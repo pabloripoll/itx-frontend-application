@@ -324,11 +324,17 @@ ol {
 }
 
 .header__logo {
-	padding: 26px 0;
+	height: 50px;
+	padding: 10px 0;
 }
 
 .header__logo a {
+	height: inherit;
 	display: inline-block;
+}
+
+.header__logo img {
+	height: inherit;
 }
 
 .header__menu {
