@@ -13,6 +13,7 @@ const Header = () => {
     useEffect(() => {
         const handleClickOutside = (e) => {
             if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
+                 
                 setCartOpen(false);
             }
         };
@@ -20,8 +21,15 @@ const Header = () => {
         return () => document.removeEventListener('mousedown', handleClickOutside);
     }, []);
 
+    const prevLocation = useRef(location);
+
+
     useEffect(() => {
-        setCartOpen(false);
+        if (prevLocation.current !== location) {
+            prevLocation.current = location;
+            // eslint-disable-next-line react-hooks/set-state-in-effect
+            setCartOpen(false);
+        }
     }, [location]);
 
     return (

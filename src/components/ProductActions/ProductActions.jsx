@@ -55,7 +55,7 @@ const ProductActions = ({
                         : 'Product added to cart!',
             });
             if (onCartUpdated) onCartUpdated();
-        } catch (err) {
+        } catch (_err) {
             setFeedback({ type: 'danger', message: 'Failed to update cart. Try again.' });
         } finally {
             setAdding(false);

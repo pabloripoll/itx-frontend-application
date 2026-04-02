@@ -16,7 +16,7 @@ const ProductListing = () => {
                 const data = await getProducts();
                 setProducts(data);
                 setFiltered(data);
-            } catch (err) {
+            } catch (_err) {
                 setError('Failed to load products. Please try again.');
             } finally {
                 setLoading(false);

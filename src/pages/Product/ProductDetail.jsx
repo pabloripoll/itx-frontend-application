@@ -27,13 +27,14 @@ const ProductDetail = () => {
                 setProduct(data);
                 const cartItem = getCartItem(id);
                 if (cartItem) setQuantity(cartItem.quantity);
-            } catch (err) {
+            } catch (_err) {
                 setError('Failed to load product details. Please try again.');
             } finally {
                 setLoading(false);
             }
         };
         fetchProduct();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [id]);
 
     const handleDecrease = () => setQuantity((q) => Math.max(0, q - 1));
