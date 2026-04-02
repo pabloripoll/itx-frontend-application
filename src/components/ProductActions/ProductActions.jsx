@@ -4,6 +4,9 @@ import { useCart } from '../../context/CartContext';
 
 const ProductActions = ({
     productId,
+    productName,
+    productBrand,
+    productImgUrl,
     storageOptions,
     colorOptions,
     quantity,
@@ -39,6 +42,9 @@ const ProductActions = ({
                 colorCode: Number(selectedColor),
                 storageCode: Number(selectedStorage),
                 quantity,
+                name: productName,
+                brand: productBrand,
+                imgUrl: productImgUrl,
             });
             setFeedback({
                 type: 'success',
@@ -109,7 +115,7 @@ const ProductActions = ({
                     <span>Quantity:</span>
                     <div className="pro-qty">
                         <span className="dec qtybtn" onClick={onDecrease}>-</span>
-                        <input type="text" value={quantity} onChange={onQuantityChange} disabled/>
+                        <input type="text" value={quantity} onChange={onQuantityChange} disabled />
                         <span className="inc qtybtn" onClick={onIncrease}>+</span>
                     </div>
                 </div>

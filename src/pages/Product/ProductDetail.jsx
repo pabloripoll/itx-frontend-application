@@ -8,7 +8,6 @@ import ProductActions from '../../components/ProductActions/ProductActions';
 
 const toArray = (val) => {
     if (!val) return null;
-
     return Array.isArray(val) ? val.join(', ') : String(val);
 };
 
@@ -44,7 +43,6 @@ const ProductDetail = () => {
         if (!isNaN(val) && val >= 0) setQuantity(val);
     };
 
-    // Read directly from localStorage to avoid stale context closure
     const handleCartUpdated = () => {
         try {
             const cart = JSON.parse(localStorage.getItem('cart')) || {};
@@ -88,6 +86,9 @@ const ProductDetail = () => {
                             </div>
                             <ProductActions
                                 productId={product.id}
+                                productName={product.model}
+                                productBrand={product.brand}
+                                productImgUrl={product.imgUrl}
                                 storageOptions={product.options?.storages}
                                 colorOptions={product.options?.colors}
                                 quantity={quantity}
@@ -128,11 +129,11 @@ const ProductDetail = () => {
                                             <FieldRow label="Chipset" value={product.chipset} />
                                             <FieldRow label="GPU" value={product.gpu} />
                                             <FieldRow label="External Memory" value={product.externalMemory} />
-                                            <FieldRow label="WLAN" value={product.wlan?.join(', ')} />
-                                            <FieldRow label="Bluetooth" value={product.bluetooth?.join(', ')} />
+                                            <FieldRow label="WLAN" value={toArray(product.wlan)} />
+                                            <FieldRow label="Bluetooth" value={toArray(product.bluetooth)} />
                                             <FieldRow label="GPS" value={product.gps} />
                                             <FieldRow label="USB" value={product.usb} />
-                                            <FieldRow label="Sensors" value={product.sensors?.join(', ')} />
+                                            <FieldRow label="Sensors" value={toArray(product.sensors)} />
                                         </tbody>
                                     </table>
                                 </div>

@@ -21,13 +21,16 @@ export const CartProvider = ({ children }) => {
 
     const cartCount = Object.keys(cart).length;
 
-    const updateCart = (productId, { colorCode, storageCode, quantity }) => {
+    // Last 3 added — stored as ordered list
+    const recentItems = Object.keys(cart).slice(-3).reverse().map((id) => ({ id, ...cart[id] }));
+
+    const updateCart = (productId, { colorCode, storageCode, quantity, name, brand, imgUrl }) => {
         setCart((prev) => {
             const next = { ...prev };
             if (quantity <= 0) {
                 delete next[productId];
             } else {
-                next[productId] = { colorCode, storageCode, quantity };
+                next[productId] = { colorCode, storageCode, quantity, name, brand, imgUrl };
             }
             saveCart(next);
             return next;
@@ -35,11 +38,10 @@ export const CartProvider = ({ children }) => {
     };
 
     const getCartItem = (productId) => cart[productId] || null;
-
     const isInCart = (productId) => !!cart[productId];
 
     return (
-        <CartContext.Provider value={{ cart, cartCount, updateCart, getCartItem, isInCart }}>
+        <CartContext.Provider value={{ cart, cartCount, recentItems, updateCart, getCartItem, isInCart }}>
             {children}
         </CartContext.Provider>
     );
