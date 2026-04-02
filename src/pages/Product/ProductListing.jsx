@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { getProducts } from '../../api/productApi';
-//import SearchBar from '../../components/SearchBar/SearchBar';
+import SearchBar from '../../components/SearchBar/SearchBar';
 import ProductItem from '../../components/ProductItem/ProductItem';
 
 const ProductListing = () => {
@@ -40,7 +40,7 @@ const ProductListing = () => {
 
     return (
         <div>
-            {/* <SearchBar value={search} onChange={setSearch} /> */}
+            <SearchBar value={search} onChange={setSearch} />
             {filtered.length === 0 ? (
                 <div className="text-center py-5 text-muted">
                     No products found for &quot;{search}&quot;
