@@ -40,7 +40,7 @@ const Header = () => {
                             <nav className="header__menu">
                                 <ul>
                                     <li className={!isDetail ? 'active' : ''}>
-                                        <Link to="/"><i className="fas fa-home"></i></Link>
+                                        <Link to="/"><i className="fas fa-home"></i> Home</Link>
                                     </li>
                                 </ul>
                             </nav>
