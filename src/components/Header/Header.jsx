@@ -52,9 +52,7 @@ const Header = () => {
                             <div className="header__right">
                                 <ul className="header__right__widget">
                                     <li>
-                                        <i className="fas fa-home"></i>
-                                        <span className="icon_bag_alt"></span>
-                                        <div className="tip">{cartCount}</div>
+                                        <span className="icon_bag_alt"></span> <span>{cartCount}</span>
                                     </li>
                                 </ul>
                             </div>
