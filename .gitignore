@@ -24,4 +24,8 @@ dist-ssr
 *.sw?
 
 # Project
+.env
+.env.test
+.env.pre
+.env.pro
 /vault

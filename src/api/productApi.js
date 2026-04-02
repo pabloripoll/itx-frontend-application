@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { getCache, setCache } from '../service/cacheService';
 
-const BASE_URL = 'https://itx-frontend-test.onrender.com';
+const BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 const api = axios.create({
     baseURL: BASE_URL,
