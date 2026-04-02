@@ -1,19 +1,18 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { getProductDetail } from '../../api/productApi';
+import { useCart } from '../../context/CartContext';
 import ProductImage from '../../components/ProductImage/ProductImage';
 import ProductDescription, { FieldItem, FieldRow } from '../../components/ProductDescription/ProductDescription';
 import ProductActions from '../../components/ProductActions/ProductActions';
 
-const getStoredQuantity = (id) => Number(localStorage.getItem(`quantity_${id}`)) || 0;
-const setStoredQuantity = (id, qty) => localStorage.setItem(`quantity_${id}`, qty);
-
 const ProductDetail = () => {
     const { id } = useParams();
+    const { getCartItem } = useCart();
     const [product, setProduct] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    const [quantity, setQuantity] = useState(() => getStoredQuantity(id));
+    const [quantity, setQuantity] = useState(0);
     const [activeTab, setActiveTab] = useState('description');
 
     useEffect(() => {
@@ -21,6 +20,8 @@ const ProductDetail = () => {
             try {
                 const data = await getProductDetail(id);
                 setProduct(data);
+                const cartItem = getCartItem(id);
+                if (cartItem) setQuantity(cartItem.quantity);
             } catch (err) {
                 setError('Failed to load product details. Please try again.');
             } finally {
@@ -30,16 +31,21 @@ const ProductDetail = () => {
         fetchProduct();
     }, [id]);
 
-    // Sync quantity to localStorage whenever it changes
-    useEffect(() => {
-        setStoredQuantity(id, quantity);
-    }, [id, quantity]);
-
     const handleDecrease = () => setQuantity((q) => Math.max(0, q - 1));
     const handleIncrease = () => setQuantity((q) => q + 1);
     const handleChange = (e) => {
         const val = parseInt(e.target.value);
         if (!isNaN(val) && val >= 0) setQuantity(val);
+    };
+
+    // Read directly from localStorage to avoid stale context closure
+    const handleCartUpdated = () => {
+        try {
+            const cart = JSON.parse(localStorage.getItem('cart')) || {};
+            if (!cart[id]) setQuantity(0);
+        } catch {
+            // ignore parse errors
+        }
     };
 
     if (loading) return (
@@ -79,10 +85,10 @@ const ProductDetail = () => {
                                 storageOptions={product.options?.storages}
                                 colorOptions={product.options?.colors}
                                 quantity={quantity}
-                                onAddedToCart={() => setQuantity((q) => q + 1)}
                                 onDecrease={handleDecrease}
                                 onIncrease={handleIncrease}
                                 onQuantityChange={handleChange}
+                                onCartUpdated={handleCartUpdated}
                             />
                         </div>
                     </div>
@@ -108,21 +114,21 @@ const ProductDetail = () => {
                                 <div className={`tab-pane ${activeTab === 'specification' ? 'active' : ''}`} role="tabpanel">
                                     <h6>Specification</h6>
                                     <table className="table table-borderless table-sm">
-                                    <tbody>
-                                        <FieldRow label="Network" value={product.networkTechnology} />
-                                        <FieldRow label="SIM" value={product.sim} />
-                                        <FieldRow label="Display" value={product.displayType} />
-                                        <FieldRow label="Display Size" value={product.displaySize} />
-                                        <FieldRow label="Chipset" value={product.chipset} />
-                                        <FieldRow label="GPU" value={product.gpu} />
-                                        <FieldRow label="External Memory" value={product.externalMemory} />
-                                        <FieldRow label="WLAN" value={product.wlan?.join(', ')} />
-                                        <FieldRow label="Bluetooth" value={product.bluetooth?.join(', ')} />
-                                        <FieldRow label="GPS" value={product.gps} />
-                                        <FieldRow label="USB" value={product.usb} />
-                                        <FieldRow label="Sensors" value={product.sensors?.join(', ')} />
-                                    </tbody>
-                                </table>
+                                        <tbody>
+                                            <FieldRow label="Network" value={product.networkTechnology} />
+                                            <FieldRow label="SIM" value={product.sim} />
+                                            <FieldRow label="Display" value={product.displayType} />
+                                            <FieldRow label="Display Size" value={product.displaySize} />
+                                            <FieldRow label="Chipset" value={product.chipset} />
+                                            <FieldRow label="GPU" value={product.gpu} />
+                                            <FieldRow label="External Memory" value={product.externalMemory} />
+                                            <FieldRow label="WLAN" value={product.wlan?.join(', ')} />
+                                            <FieldRow label="Bluetooth" value={product.bluetooth?.join(', ')} />
+                                            <FieldRow label="GPS" value={product.gps} />
+                                            <FieldRow label="USB" value={product.usb} />
+                                            <FieldRow label="Sensors" value={product.sensors?.join(', ')} />
+                                        </tbody>
+                                    </table>
                                 </div>
                                 <div className={`tab-pane ${activeTab === 'reviews' ? 'active' : ''}`} role="tabpanel">
                                     <h6>Reviews</h6>

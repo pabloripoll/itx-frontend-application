@@ -7,16 +7,18 @@ const ProductActions = ({
     storageOptions,
     colorOptions,
     quantity,
-    onAddedToCart,
+    onCartUpdated,
     onDecrease,
     onIncrease,
     onQuantityChange,
 }) => {
-    const { updateCartCount } = useCart();
+    const { updateCart, isInCart } = useCart();
     const [selectedStorage, setSelectedStorage] = useState('');
     const [selectedColor, setSelectedColor] = useState('');
     const [adding, setAdding] = useState(false);
     const [feedback, setFeedback] = useState(null);
+
+    const alreadyInCart = isInCart(productId);
 
     useEffect(() => {
         if (storageOptions?.length > 0) setSelectedStorage(String(storageOptions[0].code));
@@ -28,17 +30,27 @@ const ProductActions = ({
         setAdding(true);
         setFeedback(null);
         try {
-            const result = await addToCart({
+            await addToCart({
                 id: productId,
+                colorCode: Number(selectedColor),
+                storageCode: Number(selectedStorage),
+            });
+            updateCart(productId, {
                 colorCode: Number(selectedColor),
                 storageCode: Number(selectedStorage),
                 quantity,
             });
-            updateCartCount(result.count);
-            setFeedback({ type: 'success', message: 'Product added to cart!' });
-            if (onAddedToCart) onAddedToCart();
+            setFeedback({
+                type: 'success',
+                message: quantity === 0
+                    ? 'Product removed from cart.'
+                    : alreadyInCart
+                        ? 'Cart updated!'
+                        : 'Product added to cart!',
+            });
+            if (onCartUpdated) onCartUpdated();
         } catch (err) {
-            setFeedback({ type: 'danger', message: 'Failed to add product. Try again.' });
+            setFeedback({ type: 'danger', message: 'Failed to update cart. Try again.' });
         } finally {
             setAdding(false);
         }
@@ -107,7 +119,11 @@ const ProductActions = ({
                     disabled={adding}
                 >
                     <span className="icon_bag_alt"></span>
-                    {adding ? ' Adding...' : ' Add to cart'}
+                    {adding
+                        ? ' Updating...'
+                        : alreadyInCart
+                            ? ' Update cart'
+                            : ' Add to cart'}
                 </button>
             </div>
 

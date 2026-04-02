@@ -9,7 +9,6 @@ const Header = () => {
 
     return (
         <>
-            {/* Offcanvas Menu Begin */}
             <div className="offcanvas-menu-overlay"></div>
             <div className="offcanvas-menu-wrapper">
                 <div className="offcanvas__close">+</div>
@@ -28,9 +27,7 @@ const Header = () => {
                     <div className="tip">{cartCount}</div>
                 </div>
             </div>
-            {/* Offcanvas Menu End */}
 
-            {/* Header Section Begin */}
             <header className="header">
                 <div className="container-fluid">
                     <div className="row">
@@ -63,9 +60,7 @@ const Header = () => {
                     </div>
                 </div>
             </header>
-            {/* Header Section End */}
 
-            {/* Breadcrumb Begin */}
             {isDetail && (
                 <div className="breadcrumb-option">
                     <div className="container">
@@ -80,7 +75,6 @@ const Header = () => {
                     </div>
                 </div>
             )}
-            {/* Breadcrumb End */}
         </>
     );
 };
