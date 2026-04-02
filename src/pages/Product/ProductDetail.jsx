@@ -50,8 +50,8 @@ const ProductDetail = () => {
                         <ProductDescription product={product} />
                         <ProductActions
                             productId={product.id}
-                            storageOptions={product.internalMemory}
-                            colorOptions={product.colors}
+                            storageOptions={product.options?.storages}
+                            colorOptions={product.options?.colors}
                         />
                     </div>
                 </div>

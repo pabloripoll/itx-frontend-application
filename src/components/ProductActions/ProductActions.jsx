@@ -10,8 +10,8 @@ const ProductActions = ({ productId, storageOptions, colorOptions }) => {
     const [feedback, setFeedback] = useState(null);
 
     useEffect(() => {
-        if (storageOptions?.length > 0) setSelectedStorage(storageOptions[0].code);
-        if (colorOptions?.length > 0) setSelectedColor(colorOptions[0].code);
+        if (storageOptions?.length > 0) setSelectedStorage(String(storageOptions[0].code));
+        if (colorOptions?.length > 0) setSelectedColor(String(colorOptions[0].code));
     }, [storageOptions, colorOptions]);
 
     const handleAddToCart = async () => {
@@ -42,7 +42,7 @@ const ProductActions = ({ productId, storageOptions, colorOptions }) => {
                         <div className="size__btn">
                             {storageOptions?.map((option) => (
                                 <label
-                                    key={option.code}
+                                    key={`storage-${option.code}`}
                                     className={selectedStorage === String(option.code) ? 'active' : ''}
                                 >
                                     <input
@@ -62,7 +62,7 @@ const ProductActions = ({ productId, storageOptions, colorOptions }) => {
                         <div className="color__checkbox">
                             {colorOptions?.map((option) => (
                                 <label
-                                    key={option.code}
+                                    key={`color-${option.code}`}
                                     title={option.name}
                                     className={selectedColor === String(option.code) ? 'active' : ''}
                                 >
