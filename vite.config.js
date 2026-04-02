@@ -8,11 +8,17 @@ export default defineConfig(({ mode }) => {
         plugins: [react()],
         server: {
             port: Number(env.VITE_PORT) || 3000,
-            host: true, // needed to expose port outside the container
+            host: true,
         },
         test: {
             environment: 'jsdom',
             globals: true,
+            setupFiles: './src/tests/setup.js',
+            environmentOptions: {
+                jsdom: {
+                    url: 'http://localhost',
+                },
+            },
         },
     };
 });
