@@ -10,5 +10,9 @@ export default defineConfig(({ mode }) => {
             port: Number(env.VITE_PORT) || 3000,
             host: true, // needed to expose port outside the container
         },
+        test: {
+            environment: 'jsdom',
+            globals: true,
+        },
     };
 });
