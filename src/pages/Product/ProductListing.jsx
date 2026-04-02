@@ -35,26 +35,43 @@ const ProductListing = () => {
         setFiltered(results);
     }, [search, products]);
 
-    if (loading) return <div className="text-center py-5">Loading products...</div>;
-    if (error) return <div className="alert alert-danger">{error}</div>;
+    if (loading) return (
+        <div id="preloder">
+            <div className="loader"></div>
+        </div>
+    );
+
+    if (error) return <div className="alert alert-danger m-4">{error}</div>;
 
     return (
-        <div>
-            <SearchBar value={search} onChange={setSearch} />
-            {filtered.length === 0 ? (
-                <div className="text-center py-5 text-muted">
-                    No products found for &quot;{search}&quot;
-                </div>
-            ) : (
-                <div className="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4 mt-2">
-                    {filtered.map((product) => (
-                        <div className="col" key={product.id}>
-                            <ProductItem product={product} />
+        <section className="product spad">
+            <div className="container">
+                <div className="row align-items-center mb-4">
+                    <div className="col-lg-4 col-md-4">
+                        <div className="section-title">
+                            <h4>Mobile Phones</h4>
                         </div>
-                    ))}
+                    </div>
+                    <SearchBar value={search} onChange={setSearch} />
                 </div>
-            )}
-        </div>
+                {filtered.length === 0 ? (
+                    <div className="text-center py-5 text-muted">
+                        No products found for &quot;{search}&quot;
+                    </div>
+                ) : (
+                    <div className="row property__gallery">
+                        {filtered.map((product) => (
+                            <div
+                                key={product.id}
+                                className="col-lg-3 col-md-4 col-sm-6 mb-4"
+                            >
+                                <ProductItem product={product} />
+                            </div>
+                        ))}
+                    </div>
+                )}
+            </div>
+        </section>
     );
 };
 

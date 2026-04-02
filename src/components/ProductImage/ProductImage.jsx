@@ -1,12 +1,13 @@
 const ProductImage = ({ imgUrl, model }) => {
     return (
-        <div className="d-flex justify-content-center align-items-center h-100">
-            <img
-                src={imgUrl}
-                alt={model}
-                className="img-fluid"
-                style={{ maxHeight: '500px', objectFit: 'contain' }}
-            />
+        <div className="product__details__pic">
+            <div className="product__details__slider__content">
+                <img
+                    className="product__big__img img-fluid"
+                    src={imgUrl}
+                    alt={model}
+                />
+            </div>
         </div>
     );
 };

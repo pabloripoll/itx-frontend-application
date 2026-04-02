@@ -34,43 +34,61 @@ const ProductActions = ({ productId, storageOptions, colorOptions }) => {
     };
 
     return (
-        <div>
-            <div className="mb-3">
-                <label className="form-label fw-bold">Storage</label>
-                <select
-                    className="form-select"
-                    value={selectedStorage}
-                    onChange={(e) => setSelectedStorage(e.target.value)}
-                >
-                    {storageOptions?.map((option) => (
-                        <option key={option.code} value={option.code}>
-                            {option.name}
-                        </option>
-                    ))}
-                </select>
-            </div>
-
-            <div className="mb-3">
-                <label className="form-label fw-bold">Color</label>
-                <select
-                    className="form-select"
-                    value={selectedColor}
-                    onChange={(e) => setSelectedColor(e.target.value)}
-                >
-                    {colorOptions?.map((option) => (
-                        <option key={option.code} value={option.code}>
-                            {option.name}
-                        </option>
-                    ))}
-                </select>
+        <div className="product__details__button">
+            <div className="product__details__widget">
+                <ul>
+                    <li>
+                        <span>Storage:</span>
+                        <div className="size__btn">
+                            {storageOptions?.map((option) => (
+                                <label
+                                    key={option.code}
+                                    className={selectedStorage === String(option.code) ? 'active' : ''}
+                                >
+                                    <input
+                                        type="radio"
+                                        name="storage"
+                                        value={option.code}
+                                        checked={selectedStorage === String(option.code)}
+                                        onChange={() => setSelectedStorage(String(option.code))}
+                                    />
+                                    {option.name}
+                                </label>
+                            ))}
+                        </div>
+                    </li>
+                    <li>
+                        <span>Color:</span>
+                        <div className="color__checkbox">
+                            {colorOptions?.map((option) => (
+                                <label
+                                    key={option.code}
+                                    title={option.name}
+                                    className={selectedColor === String(option.code) ? 'active' : ''}
+                                >
+                                    <input
+                                        type="radio"
+                                        name="color"
+                                        value={option.code}
+                                        checked={selectedColor === String(option.code)}
+                                        onChange={() => setSelectedColor(String(option.code))}
+                                    />
+                                    <span className="checkmark"></span>
+                                    {option.name}
+                                </label>
+                            ))}
+                        </div>
+                    </li>
+                </ul>
             </div>
 
             <button
-                className="btn btn-primary w-100"
+                className="cart-btn"
                 onClick={handleAddToCart}
                 disabled={adding}
             >
-                {adding ? 'Adding...' : 'Add to Cart'}
+                <span className="icon_bag_alt"></span>
+                {adding ? ' Adding...' : ' Add to cart'}
             </button>
 
             {feedback && (

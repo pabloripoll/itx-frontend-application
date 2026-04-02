@@ -1,18 +1,22 @@
 const Field = ({ label, value }) => (
-    <tr>
-        <th className="text-muted fw-normal w-50">{label}</th>
-        <td>{value || 'N/A'}</td>
-    </tr>
+    <li>
+        <span>{label}:</span>
+        <p className="mb-0">{value || 'N/A'}</p>
+    </li>
 );
 
 const ProductDescription = ({ product }) => {
     return (
-        <div className="mb-4">
-            <h2 className="mb-1">{product.brand}</h2>
-            <h4 className="text-muted mb-3">{product.model}</h4>
-            <table className="table table-borderless table-sm">
-                <tbody>
-                    <Field label="Price" value={product.price ? `${product.price} €` : null} />
+        <div className="product__details__text">
+            <h3>
+                {product.model}
+                <span>Brand: {product.brand}</span>
+            </h3>
+            <div className="product__details__price">
+                {product.price ? `${product.price} €` : 'N/A'}
+            </div>
+            <div className="product__details__widget">
+                <ul>
                     <Field label="CPU" value={product.cpu} />
                     <Field label="RAM" value={product.ram} />
                     <Field label="Operating System" value={product.os} />
@@ -22,8 +26,8 @@ const ProductDescription = ({ product }) => {
                     <Field label="Front Camera" value={product.secondaryCameras?.join(', ')} />
                     <Field label="Dimensions" value={product.dimentions} />
                     <Field label="Weight" value={product.weight ? `${product.weight} g` : null} />
-                </tbody>
-            </table>
+                </ul>
+            </div>
         </div>
     );
 };

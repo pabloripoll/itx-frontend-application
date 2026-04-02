@@ -5,22 +5,20 @@ const ProductItem = ({ product }) => {
 
     return (
         <div
-            className="card h-100 shadow-sm"
-            style={{ cursor: 'pointer' }}
+            className="product__item"
             onClick={() => navigate(`/product/${product.id}`)}
+            style={{ cursor: 'pointer' }}
         >
-            <img
-                src={product.imgUrl}
-                alt={`${product.brand} ${product.model}`}
-                className="card-img-top p-3"
-                style={{ objectFit: 'contain', height: '200px' }}
+            <div
+                className="product__item__pic set-bg"
+                style={{ backgroundImage: `url(${product.imgUrl})` }}
             />
-            <div className="card-body text-center">
-                <h6 className="card-title mb-1">{product.brand}</h6>
-                <p className="card-text text-muted mb-1">{product.model}</p>
-                <p className="card-text fw-bold">
+            <div className="product__item__text">
+                <h6>{product.brand}</h6>
+                <p className="text-muted mb-1">{product.model}</p>
+                <div className="product__price">
                     {product.price ? `${product.price} €` : 'N/A'}
-                </p>
+                </div>
             </div>
         </div>
     );
