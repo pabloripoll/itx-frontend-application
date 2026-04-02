@@ -45,11 +45,6 @@ const Header = () => {
                                     <li className={!isDetail ? 'active' : ''}>
                                         <Link to="/"><i className="fas fa-home"></i></Link>
                                     </li>
-                                    {isDetail && (
-                                        <li className="active">
-                                            <span>Product Detail</span>
-                                        </li>
-                                    )}
                                 </ul>
                             </nav>
                         </div>
@@ -57,6 +52,7 @@ const Header = () => {
                             <div className="header__right">
                                 <ul className="header__right__widget">
                                     <li>
+                                        <i className="fas fa-home"></i>
                                         <span className="icon_bag_alt"></span>
                                         <div className="tip">{cartCount}</div>
                                     </li>

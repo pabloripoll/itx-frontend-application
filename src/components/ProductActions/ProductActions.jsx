@@ -2,7 +2,16 @@ import { useState, useEffect } from 'react';
 import { addToCart } from '../../api/productApi';
 import { useCart } from '../../context/CartContext';
 
-const ProductActions = ({ productId, storageOptions, colorOptions }) => {
+const ProductActions = ({
+    productId,
+    storageOptions,
+    colorOptions,
+    quantity,
+    onAddedToCart,
+    onDecrease,
+    onIncrease,
+    onQuantityChange,
+}) => {
     const { updateCartCount } = useCart();
     const [selectedStorage, setSelectedStorage] = useState('');
     const [selectedColor, setSelectedColor] = useState('');
@@ -23,9 +32,11 @@ const ProductActions = ({ productId, storageOptions, colorOptions }) => {
                 id: productId,
                 colorCode: Number(selectedColor),
                 storageCode: Number(selectedStorage),
+                quantity,
             });
             updateCartCount(result.count);
             setFeedback({ type: 'success', message: 'Product added to cart!' });
+            if (onAddedToCart) onAddedToCart();
         } catch (err) {
             setFeedback({ type: 'danger', message: 'Failed to add product. Try again.' });
         } finally {
@@ -34,11 +45,11 @@ const ProductActions = ({ productId, storageOptions, colorOptions }) => {
     };
 
     return (
-        <div className="product__details__button">
+        <>
             <div className="product__details__widget">
                 <ul>
                     <li>
-                        <span>Storage:</span>
+                        <span>Available storage:</span>
                         <div className="size__btn">
                             {storageOptions?.map((option) => (
                                 <label
@@ -58,7 +69,7 @@ const ProductActions = ({ productId, storageOptions, colorOptions }) => {
                         </div>
                     </li>
                     <li>
-                        <span>Color:</span>
+                        <span>Available color:</span>
                         <div className="color__checkbox">
                             {colorOptions?.map((option) => (
                                 <label
@@ -73,7 +84,6 @@ const ProductActions = ({ productId, storageOptions, colorOptions }) => {
                                         checked={selectedColor === String(option.code)}
                                         onChange={() => setSelectedColor(String(option.code))}
                                     />
-                                    <span className="checkmark"></span>
                                     {option.name}
                                 </label>
                             ))}
@@ -82,21 +92,31 @@ const ProductActions = ({ productId, storageOptions, colorOptions }) => {
                 </ul>
             </div>
 
-            <button
-                className="cart-btn"
-                onClick={handleAddToCart}
-                disabled={adding}
-            >
-                <span className="icon_bag_alt"></span>
-                {adding ? ' Adding...' : ' Add to cart'}
-            </button>
+            <div className="product__details__button">
+                <div className="quantity">
+                    <span>Quantity:</span>
+                    <div className="pro-qty">
+                        <span className="dec qtybtn" onClick={onDecrease}>-</span>
+                        <input type="text" value={quantity} onChange={onQuantityChange} disabled/>
+                        <span className="inc qtybtn" onClick={onIncrease}>+</span>
+                    </div>
+                </div>
+                <button
+                    className="cart-btn"
+                    onClick={handleAddToCart}
+                    disabled={adding}
+                >
+                    <span className="icon_bag_alt"></span>
+                    {adding ? ' Adding...' : ' Add to cart'}
+                </button>
+            </div>
 
             {feedback && (
                 <div className={`alert alert-${feedback.type} mt-3`}>
                     {feedback.message}
                 </div>
             )}
-        </div>
+        </>
     );
 };
 
