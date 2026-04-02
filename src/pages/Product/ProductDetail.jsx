@@ -6,6 +6,12 @@ import ProductImage from '../../components/ProductImage/ProductImage';
 import ProductDescription, { FieldItem, FieldRow } from '../../components/ProductDescription/ProductDescription';
 import ProductActions from '../../components/ProductActions/ProductActions';
 
+const toArray = (val) => {
+    if (!val) return null;
+
+    return Array.isArray(val) ? val.join(', ') : String(val);
+};
+
 const ProductDetail = () => {
     const { id } = useParams();
     const { getCartItem } = useCart();
@@ -74,8 +80,8 @@ const ProductDetail = () => {
                                     <FieldItem label="Operating System" value={product.os} />
                                     <FieldItem label="Screen Resolution" value={product.displayResolution} />
                                     <FieldItem label="Battery" value={product.battery} />
-                                    <FieldItem label="Rear Camera" value={product.primaryCamera?.join(', ')} />
-                                    <FieldItem label="Front Camera" value={product.secondaryCmera?.join(', ')} />
+                                    <FieldItem label="Rear Camera" value={toArray(product.primaryCamera)} />
+                                    <FieldItem label="Front Camera" value={toArray(product.secondaryCmera)} />
                                     <FieldItem label="Dimensions" value={product.dimentions} />
                                     <FieldItem label="Weight" value={product.weight ? `${product.weight} g` : null} />
                                 </ul>
