@@ -63,7 +63,7 @@ const ProductListing = () => {
                         {filtered.map((product) => (
                             <div
                                 key={product.id}
-                                className="col-lg-3 col-md-4 col-sm-6 mb-4"
+                                className="col-lg-3 col-md-4 col-sm-6 mb-4 mt-4"
                             >
                                 <ProductItem product={product} />
                             </div>
