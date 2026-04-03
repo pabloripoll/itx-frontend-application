@@ -3,7 +3,9 @@
 - [Objetivos del Examen - Español](./docs/Specs-ES.md)
 - [Exam Objetives - English](./docs/Specs-EN.md)
 - [Application Set Up](#application-set-up)
-- [Grafana K6 Tests](#grafa-k6-tests)
+- [Project Directory Structure](#application-dir-structure)
+- [Project Development](#application-dev)
+- [Application Build](#application-build)
 
 ## <a id="application-set-up"></a>Application Set Up
 
@@ -44,7 +46,7 @@ $ make webapp-ssh
 /var/www $ npm install @fortawesome/fontawesome-free
 ```
 
-## Project Directory Structure
+## <a id="application-dir-structure"></a>Project Directory Structure
 
 ```bash
 src/
@@ -77,9 +79,16 @@ src/
 └── main.jsx                            # entry point
 ```
 
-## Run Development Mode
+## <a id="application-dev"></a>Development
 
-Copy `.env.example` to `.env`
+Copy `.env.example` to `.env`, required to connect to API
+```
+VITE_PORT=3000
+VITE_API_BASE_URL=https://itx-frontend-test.onrender.com
+```
+<br>
+
+### Run Development Mode
 
 To know each container information you can execute `$ make webapp-info` so, you can access docker internal IP to:
 ```sh
@@ -104,7 +113,7 @@ $ make webapp-ssh
 /var/www $ npm run dev
 ```
 
-## Lint evaluation
+### Lint evaluation
 
 Run it in your terminal
 ```bash
@@ -113,7 +122,7 @@ $ make webapp-ssh
 /var/www $ npm run lint
 ```
 
-## Tests
+### Tests
 
 You can run the application tests by
 ```bash
@@ -122,7 +131,7 @@ $ make webapp-ssh
 /var/www $ npm run test
 ```
 
-## Build the Application
+## <a id="application-build"></a>Build the Application
 
 For deployment you need to build the application
 ```bash
