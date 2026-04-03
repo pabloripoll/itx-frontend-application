@@ -1,7 +1,7 @@
 # ITX FRONT END APPLICATION
 
 - [Objetivos del Examen - Español](./docs/Specs-ES.md)
-- [Exam Objetives - English](./docs/Specs-ES.md)
+- [Exam Objetives - English](./docs/Specs-EN.md)
 - [Application Set Up](#application-set-up)
 - [Grafana K6 Tests](#grafa-k6-tests)
 
