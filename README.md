@@ -121,6 +121,70 @@ $ make webapp-ssh
 
 /var/www $ npm run test
 ```
+
+## Build the Application
+
+For deployment you need to build the application
+```bash
+$ make webapp-ssh
+
+/var/www $ npm run build
+```
+
+This outputs to dist/ — that's the static SPA. But there's one important thing: since it is been using client-side routing, server must redirect all requests to index.html, otherwise a direct visit to `/product/123` will return a 404.
+
+From the Platforms Repository, `./platforms/nginx-nodejs-25/docker/config/nginx/conf.d/default.conf`
+```bash
+server {
+    listen 80;
+    server_name yourdomain.com; # Change to your domain
+
+    charset utf-8;
+
+    # Tell Nginx exactly where your built files live
+    root /var/www/dist;
+
+    index index.html;
+
+    # Serve files directly and handle Router
+    location / {
+        # This is the SPA fallback. It tries to find the file, then the directory,
+        # and if neither exists, it sends the request to index.html
+        try_files $uri $uri/ /index.html;
+    }
+
+    # 2. CACHING: Optimize loading speed for static assets (JS, CSS, Images)
+    location ~* \.(?:ico|css|js|gif|jpe?g|png|woff2?|eot|otf|ttf|svg|mp4|webm)$ {
+        expires 6M;
+        access_log off;
+        add_header Cache-Control "public";
+    }
+
+    # Deny access to dotfiles for security
+    location ~ /\. {
+        deny all;
+        log_not_found off;
+    }
+
+    # Let's Encrypt support
+    location ^~ /.well-known/acme-challenge/ {
+        default_type "text/plain";
+        root /var/www/public;
+    }
+
+    # Custom error page for 50x errors
+    error_page 500 502 503 504 /50x.html;
+    location = /50x.html {
+        root /var/www/public;
+    }
+}
+```
+
+- root `/var/www/dist` — points to the Vite build output
+
+- `try_files $uri $uri/` -> /index.html — the SPA fallback, handles direct URL access and page refreshes
+
+- Static asset caching with immutable — safe because Vite adds content hashes to filenames
 <br>
 
 
